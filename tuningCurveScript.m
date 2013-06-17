@@ -59,9 +59,9 @@ plot(Dplots(1,:),'.');
 axis tight
 set(gca,'NextPlot','replaceChildren');
 % Preallocate the struct array for the struct returned by getframe
-F(size(distances,1)) = struct('cdata',[],'colormap',[]);
+F(size(Dplots,1)) = struct('cdata',[],'colormap',[]);
 % Record the movie
-for j = 1:size(distances,1)
+for j = 1:size(Dplots,1)
     %plot(smooth(D(j,:)));
     plot(Dplots(j,:),'.');
     hold on;
