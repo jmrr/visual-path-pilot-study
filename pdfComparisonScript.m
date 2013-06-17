@@ -39,3 +39,6 @@ clearvars -except d_db_C1 d_q_C1 pdfC1within d_db_C2 d_q_C2 pdfC2within ...
 
 filename = [datestr(date,'yyyymmdd'), '_', 'pdfWithinStudy','_','C1C2C10'];
 save(filename)
+
+%% Between study
+
