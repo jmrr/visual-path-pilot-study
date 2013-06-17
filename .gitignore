@@ -7,3 +7,7 @@ test_data/
 tuning_curves_data/
 .svn/
 tuning_curves_siftDB-BIG-HIGHRES.mat
+general_functions/.svn/
+20130617SIFTC10.mat
+20130617_sift_expC1.mat
+20130617_surf_expC1.mat

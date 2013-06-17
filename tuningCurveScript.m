@@ -1,25 +1,25 @@
-%% Read the folder
+parameters
 
-if (isunix)
-    path = 'tuning_curves_data/query/C2/';
-else
-    path = 'tuning_curves_data\query\';
-end
+%% Construct db of training descriptors
 
-I_q = getImages(path,RESIZE_FACTOR);
+[d_db,kp_db] = getDescriptorDB(db_path,RESIZE_FACTOR,method);
 
-N_q = length(I_q);
+%%
 
-%% METHOD 3
+[d_q,kp_q] = getDescriptorDB(query_path,RESIZE_FACTOR,method);
 
-wb = waitbar(0,'Please wait, obtaining database of descriptors...');
+filename = [datestr(date,'yyyymmdd'),method,corridor];
+
+save(filename,d_db,kp_db,d_q,kp_q];
+%%
+
+N_q = length(d_q);
+
+wb = waitbar(0,'Generating the metric...');
 
 for ix = 1:N_q
-
-    img_q = single(rgb2gray(I_q{ix}));
-    [f_q{ix},d_q{ix}] = vl_sift(img_q,'PeakThresh',0);
-    
-        for ii = 1:length(f_db)                   % featureDatabase is a GLOBAL VARIABLE from the database. for each training image
+  
+        for ii = 1:length(kp_db)                   % featureDatabase is a GLOBAL VARIABLE from the database. for each training image
         [matches, scores] = vl_ubcmatch(d_db{ii}, d_q{ix});      % match each test image(k) to each training image(i)
 %             if (length(scores) > 10)                                                        % if matched SIFT keypoints are greater than 10
                 scoreStruct(ii) = struct('distance',scores, 'index', matches); % store the training image product id and distance of test and training image keypoints in a structure
@@ -108,7 +108,7 @@ movie(hf,F,4,5,[0 0 0 0]);
 
 %% XCORR results
 
-windowLength = 100;
+windowLength = 400;
 %%
 
 figure('Renderer','zbuffer')
@@ -122,7 +122,8 @@ H = hamming(windowLength);
 % Record the movie
 for j = 1:size(distances,1)
     
-    Y = xcorr(H,distances(j,:));
+%     Y = xcorr(H,distances(j,:));
+    Y = normxcorr1(H',distances(j,:));
     plot(Y);
     hold on;
     [maxVal,idxmax] = max(Y);
@@ -132,13 +133,13 @@ for j = 1:size(distances,1)
 
 end
 
-% [h, w, p] = size(F(1).cdata);
-% hf = figure; 
-% % resize figure based on frame's w x h, and place at (150, 150)
-% set(hf,'Position', [150 150 w h]);
-% axis off
-% % Place frames at bottom left
-% movie(hf,F,20,1,[0 0 0 0]);
+[h, w, p] = size(F(1).cdata);
+hf = figure; 
+% resize figure based on frame's w x h, and place at (150, 150)
+set(hf,'Position', [150 150 w h]);
+axis off
+% Place frames at bottom left
+movie(hf,F,20,1,[0 0 0 0]);
 
 
 %% A moving average case
@@ -171,10 +172,10 @@ for j = 1:size(distances,1)
     hold off;
 end
 
-% [h, w, p] = size(F(1).cdata);
-% hf = figure; 
-% % resize figure based on frame's w x h, and place at (150, 150)
-% set(hf,'Position', [150 150 w h]);
-% axis off
-% % Place frames at bottom left
-% movie(hf,F,1,2,[0 0 0 0]);
+[h, w, p] = size(F(1).cdata);
+hf = figure; 
+% resize figure based on frame's w x h, and place at (150, 150)
+set(hf,'Position', [150 150 w h]);
+axis off
+% Place frames at bottom left
+movie(hf,F,1,2,[0 0 0 0]);
