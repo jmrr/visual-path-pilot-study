@@ -10,7 +10,7 @@ parameters
 
 filename = [datestr(date,'yyyymmdd'),method,corridor];
 
-save(filename,d_db,kp_db,d_q,kp_q];
+save(filename,'d_db','kp_db','d_q','kp_q');
 %%
 
 N_q = length(d_q);
