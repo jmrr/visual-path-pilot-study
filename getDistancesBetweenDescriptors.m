@@ -1,8 +1,9 @@
-function [distances] = getDistancesBetweenDescriptors(d_db,d_q)
+function [distances] = getDBindicesOfSurroundingQueries(d_db,d_q,debug)
 
-wb = waitbar(0,'Generating the metric...');
+if(debug)
+    wb = waitbar(0,'Generating the metric...');
 % set(wb,'visibility','off')
-
+end
 if iscell(d_q) 
     
 N_q = length(d_q);
@@ -25,8 +26,9 @@ N_q = length(d_q);
         distancesCell{ix} = distScore;
         
         distances = cat(1,distancesCell{:});
-        waitbar(ix/N_q);
-
+        if(debug)
+            waitbar(ix/N_q);
+        end
     end % end for
 else 
     
@@ -34,7 +36,9 @@ else
     [matches, scores] = vl_ubcmatch(d_db{ii}, d_q);      % match each test image(k) to each training image(i)
             scoreStruct(ii) = struct('distance',scores, 'index', matches); % store the training image product id and distance of test and training image keypoints in a structure
             distScore (ii) = mean(scores);                                                    % calculate the average of the descriptor euclidean distance
-            waitbar(ii/length(d_db));
+            if(debug)
+                waitbar(ii/length(d_db));
+            end
     end
     [minDist, minIndex] = min(distScore); % find the TRAINING image whose descriptor 
                                     ... has minimum distance from the training 
@@ -42,8 +46,9 @@ else
     distances = distScore;
 end
 
-
-close(wb);
+if(debug)
+    close(wb);
+end
 
 
 end

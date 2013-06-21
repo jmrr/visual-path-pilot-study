@@ -1,30 +1,24 @@
     surrounding = 50;
-    gap = 300;
-for ix = 2:length(d_q_C1)
+    gap = 800;
+for ix = 1:length(d_q_C1) % for all the positions in a corridor
 
-    central_point = gt_q(ix);
-    min_val = central_point-surrounding;
-    max_val = central_point+surrounding;
+    central_point = gt_q(ix); % Get ground truth position of the QUERY
     
-    tmp = abs(gt_db-min_val);
-    [m,idx_min] = min(tmp);
+    % Get the closest SURROUNDING positions from the DATABASE
+    [idx_surr_min,idx_central(ix),idx_max] = ...
+        getDBindicesOfSurroundingQueries(central_point,surrounding,gt_db);
     
-    tmp = abs(gt_db - max_val);
-    [ma,idx_max] = min(tmp);
-    
-    tmp = abs(gt_db - central_point);
-    
-    [mc,idx_central(ix)] = min(tmp);
-    
-    idx_selection = idx_min:idx_max;
+    % Get the descriptor corresponding to DATABASE images at those locations
+    idx_surrounding = idx_min:idx_max;
     d_db_selection = d_db_C1(idx_selection);
+   
     if (idx_max+gap)<length(d_db_C1)&&(idx_min+gap)<length(d_db_C1)
         d_db_selection_far = d_db_C1(idx_selection+gap);
     elseif (idx_max+gap)>length(d_db_C1) && (idx_min+gap)<length(d_db_C1)
         d_db_selection_far = d_db_C1(idx_min+gap:end);
     end
-    [distances{ix}] = getDistancesBetweenDescriptors(d_db_selection,d_q_C1{ix});
-    [distances_w_gap{ix}] = getDistancesBetweenDescriptors(d_db_selection_far,d_q_C1{ix});
+    [distances{ix}] = getDistancesBetweenDescriptors(d_db_selection,d_q_C1{ix},0);
+    [distances_w_gap{ix}] = getDistancesBetweenDescriptors(d_db_selection_far,d_q_C1{ix},0);
 
 
     
