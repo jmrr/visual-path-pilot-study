@@ -1,5 +1,5 @@
     surrounding = 50;
-    gap = 800;
+%     gap = 800;
 for ix = 1:length(d_q_C1) % for all the positions in a corridor
 
     central_point = gt_q(ix); % Get ground truth position of the QUERY
@@ -13,20 +13,20 @@ for ix = 1:length(d_q_C1) % for all the positions in a corridor
     d_db_surrounding = d_db_C1(idx_surrounding);
     
     %% 'Far' locations
-    % Get the FAR positions from the DATABASE
-    [idx_far_min,idx_far_central(ix),idx_far_max] = ...
-        getDBindicesOfSurroundingQueries(central_point,gap,gt_db);
+%     % Get the FAR positions from the DATABASE
+%     [idx_far_min,idx_far_central(ix),idx_far_max] = ...
+%         getDBindicesOfSurroundingQueries(central_point,gap,gt_db);
     
     % Get the descriptor corresponding to DATABASE images at those FAR locations
     idx_all = 1:length(d_db_C1);
     idx_far = setdiff(idx_all,idx_surrounding);
     d_db_surrounding = d_db_C1(idx_surrounding);
-   
-    if (idx_max+gap)<length(d_db_C1)&&(idx_min+gap)<length(d_db_C1)
-        d_db_selection_far = d_db_C1(idx_selection+gap);
-    elseif (idx_max+gap)>length(d_db_C1) && (idx_min+gap)<length(d_db_C1)
-        d_db_selection_far = d_db_C1(idx_min+gap:end);
-    end
+    d_db_selection_far = d_db_C1(idx_far);
+%     if (idx_max+gap)<length(d_db_C1)&&(idx_min+gap)<length(d_db_C1)
+%         d_db_selection_far = d_db_C1(idx_selection+gap);
+%     elseif (idx_max+gap)>length(d_db_C1) && (idx_min+gap)<length(d_db_C1)
+%         d_db_selection_far = d_db_C1(idx_min+gap:end);
+%     end
     [distances{ix}] = getDistancesBetweenDescriptors(d_db_surrounding,d_q_C1{ix},0);
     [distances_w_gap{ix}] = getDistancesBetweenDescriptors(d_db_selection_far,d_q_C1{ix},0);
 
@@ -45,7 +45,7 @@ b = ones(1,windowSize)/windowSize;
 a= 1;
 
 
-for ix = 2:length(d_q_C1)
+for ix = 1:length(d_q_C1)
    
 
     correlations{ix} = (-distances{ix}+Max)/Max;
@@ -57,7 +57,7 @@ for ix = 2:length(d_q_C1)
     
 end
 
-for ix = 2:length(distances_w_gap)
+for ix = 1:length(distances_w_gap)
    
 
    correlations_w_gap{ix} = (-distances_w_gap{ix}+Max)/Max;
@@ -69,11 +69,11 @@ for ix = 2:length(distances_w_gap)
     
 end
 
-c = correlations(2:end);
+c = correlations(1:end);
 corr_mat = cat(2,c{:});
 
-c2 = correlations_w_gap(2:end);
-corr_mat_w_gap = cat(2,c2{:});
+c2 = correlations_between(1:end);
+corr_mat_between = cat(2,c2{:});
 
 %% Plots
 figure
