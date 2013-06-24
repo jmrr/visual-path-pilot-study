@@ -5,6 +5,7 @@ D = D(3:end);
 
 for ii = 1:length(D)
    load([path D(ii).name]);
+   corr_mat_withinCell{ii} = corr_mat;
    corr_mat_w_gapCell{ii} = corr_mat_w_gap;
    clearvars -except  -regexp corr_mat* D path;
 end
