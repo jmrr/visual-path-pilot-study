@@ -1,4 +1,4 @@
-function [distances] = getDBindicesOfSurroundingQueries(d_db,d_q,debug)
+function [distances] = getDistancesBetweenDescriptors(d_db,d_q,debug)
 
 if(debug)
     wb = waitbar(0,'Generating the metric...');
