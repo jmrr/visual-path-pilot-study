@@ -37,7 +37,7 @@ for ii = 1:length(T)
                 values_that_pass_thres);
         end % end for N number of random picks at the different queries.
 
-    f_rho_within(ii,k+1) = sum(valid_within_prev(k+1,:))/(N*size(cat(2,correlations_surrounding{:}),2));
+    f_rho_within(ii,k+1) = sum(valid_within_prev(k+1,:))/(N*length(correlations_surrounding{rnd_idx}));
 
     end % end for K
 %     sum1_within(ii) = sum(valid_within)/(N*size(cat(2,correlations_surrounding{:}),2));
@@ -75,7 +75,7 @@ for ii = 1:length(T)
                 values_that_pass_thres);
         end % end for N number of random picks at the different queries.
 
-    f_rho_between(ii,k+1) = sum(valid_beyond_prev(k+1,:))/(N*size(cat(2,correlations_beyond{:}),2));
+    f_rho_between(ii,k+1) = sum(valid_beyond_prev(k+1,:))/(N*length(correlations_beyond{rnd_idx}));
 
     end % end for K
 %     sum1_within(ii) = sum(valid_within)/(N*size(cat(2,correlations_surrounding{:}),2));
@@ -85,10 +85,26 @@ end % end for T threshold
 
 %% Plots 
 
+%% Separate 
+
 figure
 [X,Y] = meshgrid(0:K,T);
 surf(X,Y,f_rho_within)
 title('within')
 figure
 surf(X,Y,f_rho_between)
+title('between');
+
+%% Overlaying both
+
+figure
+[X,Y] = meshgrid(0:K,T);
+colormap summer
+hSurface = surf(X,Y,f_rho_within);
+set(hSurface,'FaceColor',[0 0 1],'FaceAlpha',0.5);
+
+title('within')
+hold on
+hSurface2 = surf(X,Y,f_rho_between);
+set(hSurface2,'FaceColor',[1 0 0],'FaceAlpha',0.5);
 title('between');
