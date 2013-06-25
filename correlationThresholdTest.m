@@ -7,7 +7,7 @@ surrounding = 50;
 
 [correlations_surrounding,correlations_beyond] = getCorrelationsNearQueryPositions(surrounding,gt_q,gt_db,d_q,d_db);
 
-% Convert to distances
+% Convert to matrices
 
 corr_mat_surr = cat(2,correlations_surrounding{:});
 

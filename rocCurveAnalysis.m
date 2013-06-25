@@ -19,9 +19,9 @@ end
 
 
 for ix = 1:length(T)
-   corr_values_above_T_between(ix) = sum(corr_mat_gap>T(ix));
+   corr_values_above_T_between(ix) = sum(corr_mat_beyond>T(ix));
    ratio_corr_values_between(ix) = ...
-       corr_values_above_T_between(ix)/length(corr_mat_gap); 
+       corr_values_above_T_between(ix)/length(corr_mat_beyond); 
 %    [n,~] = hist(corr_values_above_T,xc);
 %    pdf(ix,:) = smooth(smooth(n/sum(n)));
 %    figure

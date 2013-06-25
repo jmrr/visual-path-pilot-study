@@ -9,15 +9,18 @@ for ix = 1:length(d_q) % for all the positions in a corridor
 end
 
 
-%%
-
+%% Scaling (converting from Euclidean distances to 'correlation' or RHO
 Max =  max(cell2mat(cellfun(@(x) max(x(:)),distances_all,'UniformOutput',0)));
 
+numConsecSamples = 11; % Number of consecutive samples to take 
+                       % into account for the quantification of the
+                       % similarity.
 
 for ix = 1:length(d_q)
    
     correlations_all{ix} = (-distances_all{ix}+Max)/Max;
-    smoothed_correlations{ix} = smooth(correlations_all{ix},11);
+    % This smooth provides the equivalent of taking consecutive samples
+    smoothed_correlations{ix} = smooth(correlations_all{ix},numConsecSamples);
     
 
 end
@@ -68,13 +71,35 @@ hold on
 plot(x,smooth(smooth(pdf_beyond)),'r');
 
 
-%% ROC curves
+%% ROC curves 
 
 cs_within = cumsum(pdf_within);
 cs_beyond = cumsum(pdf_beyond);
 
-% ROC plots
+% ROC plots (one at a time)
 figure;
-hold on
 plot(cs_within,cs_beyond)
+hold on
 axis tight
+
+%% ROC plots (alltogether)
+
+% Comment out the corresponding instructions, one at a time.
+% cs_within_1= cs_within;
+% cs_beyond_1 = cs_beyond;
+% cs_within_3= cs_within;
+% cs_beyond_3 = cs_beyond;
+% cs_within_5= cs_within;
+% cs_beyond_5 = cs_beyond;
+% cs_within_11= cs_within;
+% cs_beyond_11 = cs_beyond;
+
+figure;
+plot(cs_within_1,cs_beyond_1)
+hold on
+axis tight
+plot(cs_within_3,cs_beyond_3,'r')
+plot(cs_within_5,cs_beyond_5,'g')
+plot(cs_within_11,cs_beyond_11,'k')
+
+

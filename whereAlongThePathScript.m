@@ -47,4 +47,23 @@ correlationThresholdTest
 % taking 1 sample at a time (c) or two consecutive values passing the
 % threshold (d)
 
+%% 3. Further data analysis
+
+% 3.1 ROC curve using the threshold T as a classification threshold
+
+rocCurveAnalysis
+
+% 3.2 Distribution of the values and ROC curve taking all the values
+% within-between of the rho metric (correlations)
+
+distributionWithinBeyondSmoothingPDF 
+% This is a program that computes the distribution of values of the metric 
+% rho (correlation values calculated from squared Euclidean distances between SIFT descriptors) from 0 to 1.
+% Two distributions of rho values are shown:
+% a) when the correlation is between a query image and images in the surrounding (or within the) 
+%    area near to the ocation of the query.
+%
+% b) when the correlation is between the query image and images outside
+% this surrounding area.
+
 
