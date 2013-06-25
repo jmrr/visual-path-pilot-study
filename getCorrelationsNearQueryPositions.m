@@ -1,4 +1,11 @@
-function [correlations_surrounding,correlations_beyond] = getCorrelations(surrounding,gt_q,gt_db,d_q,d_db)
+function [correlations_surrounding,correlations_beyond] = ...
+    getCorrelationsNearQueryPositions(surrounding,gt_q,gt_db,d_q,d_db)
+
+% getCorrelationsNearQueryPositions takes a certain range of descriptors
+% that correspond to nearby locations around each query specified by
+% surrounding and computes the distances between the descriptors in the
+% query and those ones in the database. Once the descriptors have been
+% computed, they are transformed into correlation values.
 
 for ix = 1:length(d_q) % for all the positions in a corridor
 

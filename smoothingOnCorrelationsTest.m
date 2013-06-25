@@ -1,3 +1,5 @@
+%% SmoothingOnCorrelationsTest
+
 for ix = 1:length(d_q) % for all the positions in a corridor
 
 
@@ -15,7 +17,7 @@ Max =  max(cell2mat(cellfun(@(x) max(x(:)),distances_all,'UniformOutput',0)));
 for ix = 1:length(d_q)
    
     correlations_all{ix} = (-distances_all{ix}+Max)/Max;
-    smoothed_correlations{ix} = smooth(correlations_all{ix},1);
+    smoothed_correlations{ix} = smooth(correlations_all{ix},11);
     
 
 end
@@ -47,7 +49,8 @@ for ix = 1:length(d_q) % for all the positions in a corridor
     values_beyond{ix} = smoothed_correlations{ix}(idx_beyond);
 
 end
-%%
+%% WITHIN-BEYOND distributions (PDF)
+
 x = linspace(0,1,100);
 
 [n_within,~] = hist(cat(1,values_within{:}),x);
@@ -55,16 +58,23 @@ pdf_within = n_within/sum(n_within);
 
 [n_beyond] = hist(cat(1,values_beyond{:}),x);
 pdf_beyond = n_beyond/sum(n_beyond);
-% 
-% % figure
-% plot(x,smooth(smooth(pdf_within)));
-% % hold on
-% plot(x,smooth(smooth(pdf_beyond)),'r');
+
+
+% PLOTS: 
+
+figure
+plot(x,smooth(smooth(pdf_within)));
+hold on
+plot(x,smooth(smooth(pdf_beyond)),'r');
+
 
 %% ROC curves
-% figure;
+
 cs_within = cumsum(pdf_within);
 cs_beyond = cumsum(pdf_beyond);
+
+% ROC plots
+figure;
 hold on
 plot(cs_within,cs_beyond)
 axis tight
