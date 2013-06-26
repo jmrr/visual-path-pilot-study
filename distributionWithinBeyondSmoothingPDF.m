@@ -34,6 +34,7 @@ figure
 plot(x,smooth(smooth(pdf_within)));
 hold on
 plot(x,smooth(smooth(pdf_beyond)),'r');
+legend('within','beyond')
 
 
 %% ROC curves 

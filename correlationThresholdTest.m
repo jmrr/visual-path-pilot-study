@@ -26,8 +26,9 @@ N = 1000;
 for ii = 1:length(T)
     
     valid_within = zeros(1,N);
+    valid_within_prev = zeros(1,N);
     for ix = 1:N
-        rnd_idx = randi(28,1);
+        rnd_idx = randi(length(correlations_surrounding),1);
 %         values_that_pass_thres = corr_with_indices_within(rnd_idx,:)>T(ii);
         values_that_pass_thres = correlations_surrounding{rnd_idx}(:)>T(ii);
         
@@ -62,8 +63,9 @@ legend('1 sample','2 consecutive samples');
 for ii = 1:length(T)
     
     aux_beyond = zeros(1,N);
+    aux_within_prev_beyond = zeros(1,N);
     for ix = 1:N
-        rnd_idx = randi(28,1);
+        rnd_idx = randi(length(correlations_beyond),1);
 %         values_that_pass_thres = corr_with_indices_within(rnd_idx,:)>T(ii);
         values_that_pass_thres = correlations_beyond{rnd_idx}(:)>T(ii);
 

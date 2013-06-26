@@ -1,7 +1,7 @@
 %% SmoothingOnCorrelationsTest
 
 for ix = 1:length(d_q) % for all the positions in a corridor
-
+    
 
 [distances_all{ix}] = getDistancesBetweenDescriptors(d_db,d_q{ix},0);
 
@@ -12,7 +12,7 @@ end
 %% Scaling (converting from Euclidean distances to 'correlation' or RHO
 Max =  max(cell2mat(cellfun(@(x) max(x(:)),distances_all,'UniformOutput',0)));
 
-numConsecSamples = 11; % Number of consecutive samples to take 
+numConsecSamples = 500; % Number of consecutive samples to take 
                        % into account for the quantification of the
                        % similarity.
 
@@ -93,7 +93,9 @@ axis tight
 % cs_beyond_5 = cs_beyond;
 % cs_within_11= cs_within;
 % cs_beyond_11 = cs_beyond;
-
+cs_within_20= cs_within;
+cs_beyond_20 = cs_beyond;
+%%
 figure;
 plot(cs_within_1,cs_beyond_1)
 hold on
@@ -101,5 +103,7 @@ axis tight
 plot(cs_within_3,cs_beyond_3,'r')
 plot(cs_within_5,cs_beyond_5,'g')
 plot(cs_within_11,cs_beyond_11,'k')
-
+% plot(cs_within_20,cs_beyond_20,'m')
+legend('K=1','K=3','K=5','K=11')
+% legend('K=1','K=3','K=5','K=11', 'K=20')
 
