@@ -29,8 +29,8 @@ for ix = 1:length(d_q) % for all the positions in a corridor
     
     %%Get the distances
     
-    [distances_surrounding{ix}] = getDistancesBetweenDescriptors(d_db_surrounding,d_q{ix},0);
-    [distances_beyond{ix}] = getDistancesBetweenDescriptors(d_db_selection_beyond,d_q{ix},0);
+    [distances_surrounding{ix}] = getDistancesBetweenDescriptors(d_q{ix},d_db_surrounding,0);
+    [distances_beyond{ix}] = getDistancesBetweenDescriptors(d_q{ix},d_db_selection_beyond,0);
 
     
 end

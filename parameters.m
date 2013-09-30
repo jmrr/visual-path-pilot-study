@@ -9,7 +9,7 @@ METHOD = 'SIFT'; % 'SURF', 'SIFT'
 
 method = METHOD;
 
-corridor = 'C5';
+corridor = 'C6';
 
 
 

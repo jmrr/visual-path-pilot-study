@@ -18,3 +18,5 @@ pdfComparisonScript.m~
 saved_data/
 plot2svg_20120915/
 20130624.mat
+*.mat
+*png

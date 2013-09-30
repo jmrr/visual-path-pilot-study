@@ -19,8 +19,8 @@ wb = waitbar(0,'Generating the metric...');
 
 for ix = 1:N_q
   
-        for ii = 1:length(kp_db)                   % featureDatabase is a GLOBAL VARIABLE from the database. for each training image
-        [matches, scores] = vl_ubcmatch(d_db{ii}, d_q{ix});      % match each test image(k) to each training image(i)
+        for ii = 1:length(d_db)                   % featureDatabase is a GLOBAL VARIABLE from the database. for each training image
+        [matches, scores] = vl_ubcmatch(d_q{ix},d_db{ii});      % match each test image(k) to each training image(i)
 %             if (length(scores) > 10)                                                        % if matched SIFT keypoints are greater than 10
                 scoreStruct(ii) = struct('distance',scores, 'index', matches); % store the training image product id and distance of test and training image keypoints in a structure
                 dist (ii) = mean(scores);                                                    % calculate the average of the descriptor euclidean distance
@@ -45,7 +45,7 @@ distances = cat(1,distancesCell{:});
 
 M = max(max(distances));
 
-Dplots = (-distances+M)/M;
+correlations = (-distances+M)/M;
 
 distances(isnan(distances)) = M;
 
@@ -55,17 +55,17 @@ close(wb);
 %% PLOT normalised Distances
 
 figure('Renderer','zbuffer')
-plot(Dplots(1,:),'.');
+plot(correlations(1,:),'.');
 axis tight
 set(gca,'NextPlot','replaceChildren');
 % Preallocate the struct array for the struct returned by getframe
-F(size(Dplots,1)) = struct('cdata',[],'colormap',[]);
+F(size(correlations,1)) = struct('cdata',[],'colormap',[]);
 % Record the movie
-for j = 1:size(Dplots,1)
+for j = 1:size(correlations,1)
     %plot(smooth(D(j,:)));
-    plot(Dplots(j,:),'.');
+    plot(correlations(j,:),'.');
     hold on;
-    [maxVal,idxmax] = max(Dplots(j,:));
+    [maxVal,idxmax] = max(correlations(j,:));
 %     plot(idxmax,maxVal,'rs','LineWidth',2,'MarkerFaceColor','g','MarkerSize',10);
     F(j) = getframe;
     hold off;
@@ -150,7 +150,7 @@ a= 1;
 
 span = 20;
 figure('Renderer','zbuffer')
-plot(Dplots(1,:));
+plot(correlations(1,:));
 axis([1 size(distances,1) 0 1])
 set(gca,'NextPlot','replaceChildren');
 % Preallocate the struct array for the struct returned by getframe
@@ -159,7 +159,7 @@ F(size(distances,1)) = struct('cdata',[],'colormap',[]);
 averagedSignal = zeros(size(distances));
 for j = 1:size(distances,1)
     %plot(smooth(D(j,:)));
-    averagedSignal(j,:) = filter(b,a,Dplots(j,:));
+    averagedSignal(j,:) = filter(b,a,correlations(j,:));
     plot(averagedSignal(j,:));
     hold on;
     [maxValAV,idxmaxAV] = max(averagedSignal(j,:));

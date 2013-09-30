@@ -3,7 +3,7 @@
 for ix = 1:length(d_q) % for all the positions in a corridor
     
 
-[distances_all{ix}] = getDistancesBetweenDescriptors(d_db,d_q{ix},0);
+[distances_all{ix}] = getDistancesBetweenDescriptors(d_q{ix},d_db,0,3);
 
 
 end
@@ -12,14 +12,17 @@ end
 %% Scaling (converting from Euclidean distances to 'correlation' or RHO
 Max =  max(cell2mat(cellfun(@(x) max(x(:)),distances_all,'UniformOutput',0)));
 
-numConsecSamples = 500; % Number of consecutive samples to take 
+numConsecSamples = 100; % Number of consecutive samples to take 
                        % into account for the quantification of the
-                       % similarity.
+                       % similarity. 100 samples ~ 2m
 
 for ix = 1:length(d_q)
    
     correlations_all{ix} = (-distances_all{ix}+Max)/Max;
+    
     % This smooth provides the equivalent of taking consecutive samples
+    % from the database
+    
     smoothed_correlations{ix} = smooth(correlations_all{ix},numConsecSamples);
     
 
@@ -27,7 +30,7 @@ end
 
 %%
 
-surrounding = 50;
+surrounding = 50; % 
 
 for ix = 1:length(d_q) % for all the positions in a corridor
 
@@ -73,7 +76,7 @@ plot(x,smooth(smooth(pdf_beyond)),'r');
 
 %% ROC curves 
 
-cs_within = cumsum(pdf_within);
+cs_within = cumsum(pdf_within); % Because our pdfs are discrete, the discrete cumsum can be used.
 cs_beyond = cumsum(pdf_beyond);
 
 % ROC plots (one at a time)

@@ -10,7 +10,7 @@ load '20130617SIFTC1.mat'
 d_db_C1 = d_db; 
 d_q_C1 = d_q;
 
-[distancesC1within] = getDistancesBetweenDescriptors(d_db_C1,d_q_C1);
+[distancesC1within] = getDistancesBetweenDescriptors(d_q_C1,d_db_C1);
 
 % clearvars -except d_db_C1 d_q_C1 pdfC1within
 
@@ -22,7 +22,7 @@ load '20130617SIFTC2.mat'
 d_db_C2 = d_db; 
 d_q_C2 = d_q; 
 
-[distancesC2within] = getDistancesBetweenDescriptors(d_db_C2,d_q_C2);
+[distancesC2within] = getDistancesBetweenDescriptors(d_q_C2,d_db_C2);
 
 
 %% C10
@@ -32,26 +32,26 @@ load '20130617SIFTC10.mat'
 d_db_C10 = d_db; 
 d_q_C10 = d_q; 
 
-[distancesC10within] = getDistancesBetweenDescriptors(d_db_C10,d_q_C10);
+[distancesC10within] = getDistancesBetweenDescriptors(d_q_C10,d_db_C10);
 
 
 %% Between study
 
 % C1 as db
 
-[distances_dbC1_qC2_between] = getDistancesBetweenDescriptors(d_db_C1,d_q_C2);
+[distances_dbC1_qC2_between] = getDistancesBetweenDescriptors(d_q_C2,d_db_C1);
 
-[distances_dbC1_qC10_between] = getDistancesBetweenDescriptors(d_db_C1,d_q_C10);
+[distances_dbC1_qC10_between] = getDistancesBetweenDescriptors(d_q_C10,d_db_C1);
 
 %% C2 as db
 
-[distances_dbC2_qC1_between] = getDistancesBetweenDescriptors(d_db_C2,d_q_C1);
-[distances_dbC2_qC10_between] = getDistancesBetweenDescriptors(d_db_C1,d_q_C10);
+[distances_dbC2_qC1_between] = getDistancesBetweenDescriptors(d_q_C1,d_db_C2);
+[distances_dbC2_qC10_between] = getDistancesBetweenDescriptors(d_q_C10,d_db_C1);
 
 %% C10 as db
 
-[distances_dbC10_qC1_between] = getDistancesBetweenDescriptors(d_db_C10,d_q_C1);
-[distances_dbC10_qC2_between] = getDistancesBetweenDescriptors(d_db_C10,d_q_C2);
+[distances_dbC10_qC1_between] = getDistancesBetweenDescriptors(d_q_C1,d_db_C10);
+[distances_dbC10_qC2_between] = getDistancesBetweenDescriptors(d_q_C2,d_db_C10);
 
 %% Normalisation and conversion to correlation
 

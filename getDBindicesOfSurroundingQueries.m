@@ -2,6 +2,9 @@ function [idx_min,idx_central,idx_max] = ...
     getDBindicesOfSurroundingQueries(central_point,surrounding,gt_db)
 
     min_val = central_point-surrounding;
+    if(min_val<0)
+        min_val = 0;
+    end
     max_val = central_point+surrounding;
     
     tmp = abs(gt_db-min_val);

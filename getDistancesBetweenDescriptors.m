@@ -1,4 +1,10 @@
-function [distances] = getDistancesBetweenDescriptors(d_db,d_q,debug)
+function [distances] = getDistancesBetweenDescriptors(d_q,d_db,debug,varargin)
+
+if nargin>3
+    ubc_thres = varargin{1};
+else
+    ubc_thres = 1.5;
+end
 
 if(debug)
     wb = waitbar(0,'Generating the metric...');
@@ -11,7 +17,7 @@ N_q = length(d_q);
     for ix = 1:N_q
 
             for ii = 1:length(d_db)                   % featureDatabase is a GLOBAL VARIABLE from the database. for each training image
-            [matches, scores] = vl_ubcmatch(d_q{ix},d_db{ii});      % match each test image(k) to each training image(i)
+            [matches, scores] = vl_ubcmatch(d_q{ix},d_db{ii},ubc_thres);      % match each test image(k) to each training image(i)
     %             if (length(scores) > 10)                                                        % if matched SIFT keypoints are greater than 10
                     scoreStruct(ii) = struct('distance',scores, 'index', matches); % store the training image product id and distance of test and training image keypoints in a structure
                     distScore (ii) = mean(scores);                                                    % calculate the average of the descriptor euclidean distance
@@ -33,7 +39,7 @@ N_q = length(d_q);
 else 
     
     for ii = 1:length(d_db)                   % featureDatabase is a GLOBAL VARIABLE from the database. for each training image
-    [matches, scores] = vl_ubcmatch(d_q,d_db{ii});      % match each test image(k) to each training image(i)
+    [matches, scores] = vl_ubcmatch(d_q,d_db{ii},ubc_thres);      % match each test image(k) to each training image(i)
             scoreStruct(ii) = struct('distance',scores, 'index', matches); % store the training image product id and distance of test and training image keypoints in a structure
             distScore (ii) = mean(scores);                                                    % calculate the average of the descriptor euclidean distance
             if(debug)

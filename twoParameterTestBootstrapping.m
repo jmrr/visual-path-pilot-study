@@ -110,18 +110,16 @@ surf(X,Y,f_rho_between)
 title('between');
 
 %% Overlaying both
-
+li
 figure
 [X,Y] = meshgrid(0:K-1,T);
 colormap summer
 hSurface = surf(X,Y,f_rho_within);
 set(hSurface,'FaceColor',[0 0 1],'FaceAlpha',0.5);
 
-% title('within')
 hold on
 hSurface2 = surf(X,Y,f_rho_between);
 set(hSurface2,'FaceColor',[1 0 0],'FaceAlpha',0.5);
-% title('between');
 axis tight
 
 ylabel('T')

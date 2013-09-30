@@ -27,8 +27,8 @@ for ix = 1:length(d_q_C1) % for all the positions in a corridor
 %     elseif (idx_max+gap)>length(d_db_C1) && (idx_min+gap)<length(d_db_C1)
 %         d_db_selection_far = d_db_C1(idx_min+gap:end);
 %     end
-    [distances{ix}] = getDistancesBetweenDescriptors(d_db_surrounding,d_q_C1{ix},0);
-    [distances_w_gap{ix}] = getDistancesBetweenDescriptors(d_db_selection_far,d_q_C1{ix},0);
+    [distances{ix}] = getDistancesBetweenDescriptors(d_q_C1{ix},d_db_surrounding,0);
+    [distances_w_gap{ix}] = getDistancesBetweenDescriptors(d_q_C1{ix},d_db_selection_far,0);
 
 
     
