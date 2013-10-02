@@ -32,13 +32,17 @@ end
 
 x = linspace(0,1,100);
 
-for s = 1:1:gt_q(end)
+N = 1000; % Level of randomization
 
-    surrounding = s; % 
+for s = 1:1:gt_q(end)-50
 
-    for ix = 1:length(d_q) % for all the positions in a corridor
+    surrounding = (s-1)+50; % 
 
-        central_point = gt_q(ix); % Get ground truth position of the QUERY
+    for ix = 1:N % for N random experiments
+        
+        rnd_idx = randi(length(gt_q),1);
+
+        central_point = gt_q(rnd_idx); % Get ground truth position of the QUERY
 
         %% Surrounding locations
         % Get the closest SURROUNDING positions from the DATABASE
@@ -48,7 +52,7 @@ for s = 1:1:gt_q(end)
         % Get the descriptor corresponding to DATABASE images at those locations
         idx_surrounding = idx_surr_min:idx_surr_max;
 
-        values_within{ix}{s} = smoothed_correlations{ix}(idx_surrounding);
+        values_within{ix}{s} = smoothed_correlations{rnd_idx}(idx_surrounding);
 
         %% 'Far' locations
 
@@ -56,7 +60,7 @@ for s = 1:1:gt_q(end)
         idx_all = 1:length(d_db);
         idx_beyond = setdiff(idx_all,idx_surrounding);
 
-        values_beyond{ix}{s} = smoothed_correlations{ix}(idx_beyond);
+        values_beyond{ix}{s} = smoothed_correlations{rnd_idx}(idx_beyond);
         
         %% Within-beyond distributions (PDFs)
         
@@ -69,15 +73,11 @@ for s = 1:1:gt_q(end)
     end
 
 end
+%%
 
-%% WITHIN-BEYOND distributions (PDF)
-
-
-for ix = 1:length(d_q)
-    
-    [n_within,~] = hist(cat(1,values_within{ix}{:}),x);
-    pdf_within{ix} = n_within/sum(n_within);
-
-    [n_beyond] = hist(cat(1,values_beyond{:}),x);
-    pdf_beyond{s} = n_beyond/sum(n_beyond);
-end
+% PLOTS: 
+% 
+% figure
+% plot(x,smooth(smooth(pdf_within)));
+% hold on
+% plot(x,smooth(smooth(pdf_beyond)),'r');
