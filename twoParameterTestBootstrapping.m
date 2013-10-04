@@ -16,7 +16,10 @@ for ii = 1:length(T)
     for k = 0:K-1
         valid_within_prev = zeros(1,N);
         values_that_pass_thres = [];
+
         for jj = 1:N
+
+            wb = waitbar(0,'Please wait, obtaining rho values...');
 
             rnd_idx = randi(length(correlations_surrounding),1);
             
