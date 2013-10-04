@@ -14,9 +14,9 @@ Max =  max(cell2mat(cellfun(@(x) max(x(:)),distances_all,'UniformOutput',0)));
 
 % Eliminate NaNs
 
-for jj = 1:length(distances_all)
-    distances_all{jj}(isnan(distances_all{jj})) = Max;
-end
+% for jj = 1:length(distances_all)
+%     distances_all{jj}(isnan(distances_all{jj})) = Max;
+% end
 
 numConsecSamples = 1; % Number of consecutive samples to take 
                        % into account for the quantification of the

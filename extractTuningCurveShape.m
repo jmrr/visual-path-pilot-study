@@ -31,6 +31,6 @@ for ix = 1:length(d_q)
     
     % Register on the raw values
     
-    blobs{ix} = registerBlobs(correlations_all{ix},Ndb,idx_peaks(ix));
+    blobs{ix} = registerBlobs(smoothed_correlations{ix},Ndb,idx_peaks(ix));
     
 end
