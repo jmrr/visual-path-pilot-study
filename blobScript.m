@@ -1,7 +1,7 @@
-savePath = '/media/Data/Code/Jose/visual_tuning_curves/saved_data/blob_characterisation/';
-dataPath = '/media/Data/Code/Jose/visual_tuning_curves/saved_data/descripor_database/';
+savePath = './saved_data/blob_characterisation/';
+dataPath = './saved_data/descripor_database/';
 
-for ii = 1:7
+for ii = 2:7
     data_file = [dataPath '20130920SIFTC' num2str(ii) '.mat'];
     load(data_file);
     extractTuningCurveShape
@@ -10,14 +10,3 @@ for ii = 1:7
 end
 
 
-%% visualisation
-
-
-for ii = 1:28
-plot(blobs{ii})
-hold on
-end
-
-%%
-close all
-clear all

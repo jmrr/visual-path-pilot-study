@@ -23,8 +23,8 @@ for ix = 1:length(d_q)
     % This smooth provides the equivalent of taking consecutive samples
     % from the database
     
-    smoothed_correlations{ix} = smooth(correlations_all{ix},numConsecSamples);
-    
+%     smoothed_correlations{ix} = smooth(correlations_all{ix},numConsecSamples);
+    smoothed_correlations{ix} = correlations_all{ix};  % Passing the raw data
     % Get the peaks of the smoothed curves 
     
     [peaks(ix) idx_peaks(ix)] = max(smoothed_correlations{ix});
