@@ -39,7 +39,7 @@ for ix = 1:length(d_q) % for all the positions in a corridor
     %% Surrounding locations
     % Get the closest SURROUNDING positions from the DATABASE
     [idx_surr_min,~,idx_surr_max] = ...
-        getDBindicesOfSurroundingQueries(central_point,surrounding,gt_db);
+        getDBindicesOfSurroundingQueriesInCentimetres(central_point,surrounding,gt_db);
     
     % Get the descriptor corresponding to DATABASE images at those locations
     idx_surrounding = idx_surr_min:idx_surr_max;

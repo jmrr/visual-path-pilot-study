@@ -1,18 +1,14 @@
-%% continuousWithinBeyondFunction Test
-
-for ix = 1:length(d_q) % for all the QUERY positions in a corridor
-    
-
-[distances_all{ix}] = getDistancesBetweenDescriptors(d_q{ix},d_db,0,1.5);
-
-end
-
 %% Scaling (converting from Euclidean distances to 'correlation' or RHO
 Max =  max(cell2mat(cellfun(@(x) max(x(:)),distances_all,'UniformOutput',0)));
 
 numConsecSamples = 100; % Number of consecutive samples to take 
                        % into account for the quantification of the
                        % similarity. 100 samples ~ 2m
+
+% I'd like to get 2*surrounding points from the database that are centred
+% around the ground truth position for the current query
+
+surrounding = 150;
                        
 Ndb = length(distances_all{1}); % Db items
 
@@ -25,12 +21,17 @@ for ix = 1:length(d_q)
     
     smoothed_correlations{ix} = smooth(correlations_all{ix},numConsecSamples);
     
-    % Get the peaks of the smoothed curves 
+
+    % Get the DB indices around the current query
     
-    [peaks(ix) idx_peaks(ix)] = max(smoothed_correlations{ix});
+    [idx_min,idx_central,idx_max] = ...
+    getDBindicesOfSurroundingQueries(gt_q(ix),surrounding,gt_db);
     
-    % Register on the raw values
+    % Register based on the ground truth
     
-    blobs{ix} = registerBlobs(correlations_all{ix},Ndb,idx_peaks(ix));  % Passing the raw data
+    blobs{ix} = registerBlobsWithGroundTruth(correlations_all{ix},surrounding,idx_min,idx_central,idx_max);
     
 end
+
+
+

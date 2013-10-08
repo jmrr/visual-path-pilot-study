@@ -56,7 +56,7 @@ for ix = 1:1:N % for N random experiments
         %% Surrounding locations
         % Get the closest SURROUNDING positions from the DATABASE
         [idx_surr_min,~,idx_surr_max] = ...
-            getDBindicesOfSurroundingQueries(central_point,surrounding,gt_db);
+            getDBindicesOfSurroundingQueriesInCentimetres(central_point,surrounding,gt_db);
 
         % Get the smoothed correlation values corresponding to DATABASE images at those locations
         idx_surrounding = idx_surr_min:idx_surr_max;

@@ -18,3 +18,11 @@ end
 %%
 % close all
 % clear all
+
+
+for ii = 1:28
+    figure
+    plot(blobs{ii})
+    hold on
+    blob_array(ii,:) = blobs{ii};
+end

@@ -6,7 +6,7 @@ for ix = 1:length(d_q_C1) % for all the positions in a corridor
     %% Surrounding locations
     % Get the closest SURROUNDING positions from the DATABASE
     [idx_surr_min,idx_surr_central(ix),idx_surr_max] = ...
-        getDBindicesOfSurroundingQueries(central_point,surrounding,gt_db);
+        getDBindicesOfSurroundingQueriesInCentimetres(central_point,surrounding,gt_db);
     
     % Get the descriptor corresponding to DATABASE images at those locations
     idx_surrounding = idx_min:idx_max;
@@ -15,7 +15,7 @@ for ix = 1:length(d_q_C1) % for all the positions in a corridor
     %% 'Far' locations
 %     % Get the FAR positions from the DATABASE
 %     [idx_far_min,idx_far_central(ix),idx_far_max] = ...
-%         getDBindicesOfSurroundingQueries(central_point,gap,gt_db);
+%         getDBindicesOfSurroundingQueriesInCentimetres(central_point,gap,gt_db);
     
     % Get the descriptor corresponding to DATABASE images at those FAR locations
     idx_all = 1:length(d_db_C1);
