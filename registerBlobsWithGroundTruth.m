@@ -12,22 +12,12 @@ if  L < span
     left_tail = idx_central-idx_min;
     right_tail = idx_max-idx_central;
     
-    blobs(1:L) = correlation(idx_min:idx_max);
-    shifted = circshift(blobs,surrounding-left_tail);
-    plot(shifted)
-%     if left_tail > right_tail
-%         blobs(surrounding:surrounding+right_tail) = correlation(idx_central:idx_max);
-%         if left_tail >= surrounding
-%             blobs(1:surrounding) = correlation(idx_min:idx_central-1);
-%         else
-%             blobs(surrounding-left_tail:surrounding) = correlation(idx_min:idx_central);
-%         end
-% %     else
-%         blobs(surrounding:surrounding+right_tail) = correlation(idx_central:idx_max);
-%         blobs(surrounding-left_tail:surrounding) = correlation(idx_min:idx_central);
-%     end
+    blobs(1:L) = correlation(idx);
+    blobs = circshift(blobs,[surrounding-left_tail,0]);
+%     plot(shifted)
+%     values = sum(~isnan(blobs))
 else
     blobs = correlation(idx);
 end
 
-end % end registerBlobs
+end % end registerBlobsWithsioGroundTruth
