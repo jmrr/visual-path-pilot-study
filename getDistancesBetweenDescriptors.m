@@ -8,57 +8,60 @@ end
 
 if(debug)
     wb = waitbar(0,'Generating the metric...');
-% set(wb,'visibility','off')
+    % set(wb,'visibility','off')
 end
 
 if iscell(d_q) % If more than one training images
     
-N_q = length(d_q);
-
+    N_q = length(d_q);
+    
     for ix = 1:N_q
-
-            for ii = 1:length(d_db)                   % featureDatabase is a GLOBAL VARIABLE from the database. for each training image
-            [matches, scores] = vl_ubcmatch(d_q{ix},d_db{ii},ubc_thres);      % match each test image(k) to each training image(i)
-    %             if (length(scores) > 10)                                                        % if matched SIFT keypoints are greater than 10
-                    scoreStruct(ii) = struct('distance',scores, 'index', matches); % store the training image product id and distance of test and training image keypoints in a structure
-                    distScore (ii) = mean(scores);  % calculate the average of the descriptor euclidean distance
-                    
-    %             else
-    %                 scoreStruct(ii) = struct('distance',NaN, 'index', NaN);
-    %                 dist (ii) = NaN;                                                             % else discard that training image as a possible match
-    %             end
-            end
-        [minDist(ix), minIndex(ix)] = min(distScore); % find the TRAINING image whose descriptor 
-                                        ... has minimum distance from the training 
-                                            ... image descriptor
-        distancesCell{ix} = distScore;
+        for ii = 1:length(d_db)    % featureDatabase is a GLOBAL VARIABLE from the database. for each training image
+            % match each test image(k) to each training image(i)
+            [matches, scores] = vl_ubcmatch(d_q{ix},d_db{ii},ubc_thres);
+            % store the training image product id and distance of test and training image keypoints in a structure
+            scoreStruct(ii) = struct('distance',scores, 'index', matches); 
+            % calculate the average of the descriptor euclidean distance
+            distScore (ii) = mean(scores);  
+        end
+         % find the TRAINING image whose descriptor has minimum distance
+         % from the training image descriptor
+        [minDist(ix), minIndex(ix)] = min(distScore);
+            distancesCell{ix} = distScore;
         
+        % Compute mean score or mean distance based on best matching
+        % descriptors
         distances = cat(1,distancesCell{:});
-
+        
         if(debug)
             waitbar(ix/N_q);
         end
     end % end for
     
-else 
+else
     
-    for ii = 1:length(d_db)                   % featureDatabase is a GLOBAL VARIABLE from the database. for each training image
-    [matches, scores] = vl_ubcmatch(d_q,d_db{ii},ubc_thres);      % match each test image(k) to each training image(i)
-            scoreStruct(ii) = struct('distance',scores, 'index', matches); % store the training image product id and distance of test and training image keypoints in a structure
-            distScore (ii) = mean(scores);                                                    % calculate the average of the descriptor euclidean distance
-            if(debug)
-                waitbar(ii/length(d_db));
-            end
-%         if (sum(isnan(distScore)))
-%             a=1
-%         end
-
+    for ii = 1:length(d_db) % featureDatabase is a GLOBAL VARIABLE from the database. for each training image
+        
+        % Use UBCMATCH to match each test image(k) to each training image(i)
+        [matches, scores] = vl_ubcmatch(d_q,d_db{ii},ubc_thres);
+        % store the training image product id and distance of test and training image keypoints in a structure
+        scoreStruct(ii) = struct('distance',scores, 'index', matches);
+        % calculate the average of the matching descriptors Euclidean distances
+        distScore (ii) = mean(scores);
+        if(debug)
+            waitbar(ii/length(d_db));
+        end
+        
     end
-    [minDist, minIndex] = min(distScore); % find the TRAINING image whose descriptor 
-                                    ... has minimum distance from the training 
-                                        ... image descriptor
+    % NOT USED
+    % find the TRAINING image whose descriptor has minimum distance
+    % from the training image descriptor
+    [minDist, minIndex] = min(distScore);
+    
+    % Compute mean score or mean distance based on best matching
+    % descriptors
     distances = distScore;
-
+    
 end
 
 if(debug)
